@@ -1,0 +1,3 @@
+basic-assignment-1-start : 
+	Created module success manually with inline template and css
+	Created module warning with ng g c - further changed to class selector
