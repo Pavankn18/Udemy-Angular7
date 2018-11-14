@@ -1,3 +1,9 @@
 basic-assignment-1-start : 
 	Created module success manually with inline template and css
 	Created module warning with ng g c - further changed to class selector
+
+basic-assignment2-start :
+	Created two way binding for username property and display the same in <p>
+	Created a button which resets username 
+	Button is enabled only when current username is not empty
+	Button click also updates last reset timestamp
