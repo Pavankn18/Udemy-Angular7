@@ -5,5 +5,7 @@ npm cache clean
 ng serve # if ng serve fails with errors update to latest CLI version and restart CLI
 ng serve --port ANOTHERPORT
 
+ng update #list of suggested udpates
+np update @angular/cli # updates cli
 
 npm install --save-dev @angular-devkit/build-angular
