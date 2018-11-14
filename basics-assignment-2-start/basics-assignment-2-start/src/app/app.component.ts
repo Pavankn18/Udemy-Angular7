@@ -6,4 +6,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+
+  username = 'username';
+  date: Date = new Date();
+
+  onResetClick() {
+    this.username = '';
+    this.date = new Date();
+  }
 }
