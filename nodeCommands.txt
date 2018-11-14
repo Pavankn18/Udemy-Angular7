@@ -1,0 +1,9 @@
+npm install -g @angular/cli
+npm uninstall -g angular-cli @angular/cli
+npm cache clean
+
+ng serve # if ng serve fails with errors update to latest CLI version and restart CLI
+ng serve --port ANOTHERPORT
+
+
+npm install --save-dev @angular-devkit/build-angular
