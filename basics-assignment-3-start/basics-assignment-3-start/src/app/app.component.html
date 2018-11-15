@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <ol>
+        <li>Add A button which says 'Display Details'</li>
+        <li>Add a paragraph with any content of your choice (e.g. 'Secret Password = tuna')</li>
+        <li>Toggle the displaying of that paragraph with the button created in the first step</li>
+        <li>Log all button clicks in an array and output that array below the secret paragraph (maybe log a timestamp or simply an incrementing number)</li>
+        <li>Starting at the 5th log item, give all future log items a blue background (via ngStyle) and white color (ngClass)</li>
+      </ol>
+    </div>
+  </div>
+
+  <button (click)="onDisplayClick()" class="btn btn-primary">Display</button>
+
+  <p *ngIf="display"> This a sample text to test ng-if. this can be toggled with Display button above</p>
+
+  <p *ngFor="let event of events; let i = index"
+   [ngStyle]=" { 'background-color': i >= 4 ? 'blue' : 'transparent' } "
+   [ngClass]=" {white : i >= 4  }"
+   >
+   Test Event {{ event }} </p>
+
+</div>
