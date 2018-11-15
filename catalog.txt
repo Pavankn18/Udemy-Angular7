@@ -7,3 +7,10 @@ basic-assignment2-start :
 	Created a button which resets username 
 	Button is enabled only when current username is not empty
 	Button click also updates last reset timestamp
+
+basic-assignment-3-start :
+	Created a button toggle a paragraph and record timestamp of click in array
+	Paragraph toggle implemented with ngIf
+	List of click events displayed with conditional formatting using *ngFor, [ngStyle], [ngClass]
+
+
