@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-xs-4">
+    <button class="btn btn-primary" (click) = "onStartClick()">Start</button>
+  </div>
+  <div class="col-xs-4">
+    <button class="btn btn-danger" (click)="onStopClick()">Stop</button>
+  </div>
+</div>
+
+<div class="div" *ngFor="let number of numbers" >
+    <app-odd [number]="number" *ngIf="number%2==1"></app-odd>
+    <app-even [number]="number" *ngIf="number%2==0"></app-even>
+</div>
