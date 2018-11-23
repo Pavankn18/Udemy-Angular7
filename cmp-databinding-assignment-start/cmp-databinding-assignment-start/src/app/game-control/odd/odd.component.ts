@@ -6,7 +6,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewInit } from '
   templateUrl: './odd.component.html',
   styleUrls: ['./odd.component.css']
 })
-export class OddComponent implements OnInit, AfterViewInit{
+export class OddComponent implements OnInit, AfterViewInit {
   @Input('number') number: number;
 
   @ViewChild('outputPane') outputPane: ElementRef;
