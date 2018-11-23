@@ -1,16 +1,45 @@
 basic-assignment-1-start : 
+	ng g c componentName
+
 	Created module success manually with inline template and css
 	Created module warning with ng g c - further changed to class selector
 
 basic-assignment2-start :
+	[(ngModel)]="FieldNameOnController"; --this is from forms module to to-way bind with form elements
+	{{fieldOnTs}};--writes fieldOnTs to compleate
+	[htmlProperty]="fieldOnTs"; --Binds html property to field on Ts
+	(evnet)=>"methodOnTs("someValueonTs",$event)"; call a method on ts on event, input params are optionsl.
+	
 	Created two way binding for username property and display the same in <p>
 	Created a button which resets username 
 	Button is enabled only when current username is not empty
 	Button click also updates last reset timestamp
 
 basic-assignment-3-start :
+	*ngFor ="let item in itemsArray;let i = index"; --repeats element on which it is present
+		i and item variables are accessible from all desendents.
+	[ngStyle]="{styleProp: tsExpression}"; --conditinally style an element
+	[ngClass]="{className:tsBooleanExpression}"; --apply className when tsBooleanExpression is true
+
 	Created a button toggle a paragraph and record timestamp of click in array
 	Paragraph toggle implemented with ngIf
 	List of click events displayed with conditional formatting using *ngFor, [ngStyle], [ngClass]
 
+
+cmp-databinding-assignment-start :
+	@Input() attribute: Type; --allows attribute to be bound to component on its tag from parent
+	@Output() eventName: EventEmitter<string> = new EventEmitter<string>() --create listanable custom event
+	eventName.emit('someVAlue') --emit event
+	@ViewChild('refName') elementRef:ElementRef; --element with #refName attribute on them in template
+		will be injected to component class.
+	-- when updating state of viewchild,use AfterViewInit interface and implement method --ngAfterViewInit
+	-- to explore other lifecycle hooks refer to pdf in root of this repo or use ide to fill On* and After*
+
+	Created a button to start and stop game - game-contoller
+	Send a event with sl# every second, create odd component if number is odd and app-even otherwise
+	Odd and even components are passed the number to display it and styled differently.
+	Odd component uses @ViewChild on ElementRef to get span to output number received with @Input number
+	Even component receives number with @Input('outputPane') number and outputs with string attripulation.
+	Game controller component emit output with @Output EventEmitter<number>.
+	
 
