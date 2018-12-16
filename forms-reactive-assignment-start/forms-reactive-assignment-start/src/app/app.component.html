@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <!--
+      <pre style="white-space: pre;">
           Create a Form with the following Controls and Validators
           1) Project Name (should not be empty)
           2) Mail (should not be a empty and a valid email)
@@ -13,7 +13,55 @@
           Also implement that Validator as an async Validator (replace the other one)
 
           Upon submitting the form, simply print the value to the console
-      -->
+        </pre>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <form (ngSubmit)="onSubmit()" [formGroup]="form">
+          <label for="project">Project</label>
+          <input formControlName="project" > <br/>
+          <span *ngIf="
+                !form.controls['project'].valid
+                && form.controls['project'].errors.required
+                && form.controls['project'].touched"
+            class="error">
+            Project name cannot be empty
+          </span>
+          <span *ngIf="
+                !form.controls['project'].valid
+                && form.controls['project'].errors.forbiddenName
+                && form.controls['project'].touched"
+            class="error">
+            Project cannot be test (case insensitive)
+          </span>
+          <br/>
+
+          <label for="mail">Mail</label>
+          <input formControlName="mail" /><br/>
+          <span *ngIf="form.controls['mail'].errors.required
+                && form.controls['mail'].touched"
+            class="error">
+            Mail ID is required field
+          </span>
+            <span *ngIf="form.controls['mail'].errors.email
+            && form.controls['mail'].touched"
+            class="error">
+            Mail ID is not valid
+          </span>
+          <br/>
+
+          <label for="status">Status</label>
+          <select formControlName="status" >
+            <option value="stable">Stable</option>
+            <option value="critical">Critical</option>
+            <option value="finished">Finished</option>
+          </select><br/>
+
+          <button type="submit">Submit</button>
+      </form>
+
     </div>
   </div>
 </div>
