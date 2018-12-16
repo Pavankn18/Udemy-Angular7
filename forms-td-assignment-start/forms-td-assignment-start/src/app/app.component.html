@@ -16,7 +16,7 @@
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" style="border: 1px blue solid">
     <div class="col-xs-12">
       <span *ngIf="!form.valid && form.touched" class="error">Form invalid</span>
       <form id=formId (ngSubmit)="submit()" #form="ngForm">
@@ -32,10 +32,11 @@
             <option value="Advanced">Advanced</option>
             <option value="Pro">Pro</option>
           </select>
-
+          <div ngModelGroup="secret">
           <br/>
-          <span>Password</span><input name="password" required ngModel/><br/>
-          <button type="submit" [disabled]="!form.valid">Submit</button> <br/>
+            <span>Password</span><input name="password" required ngModel/><br/>
+            <button type="submit" [disabled]="!form.valid">Submit</button> <br/>
+        </div>
         </div>
       </form>
     </div>
