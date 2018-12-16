@@ -1,0 +1,18 @@
+.ng-touched.ng-invalid:not(form){
+  border: 1px red solid;
+}
+
+.error{
+  color:red;
+  font: bold;
+}
+
+button[disabled]{
+  background-color: grey;
+  color: lightgray
+}
+
+button{
+  background-color: blue;
+  color: black;
+}
