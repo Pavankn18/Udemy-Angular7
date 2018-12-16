@@ -13,8 +13,10 @@ export class AppComponent implements OnInit {
 
   submit() {
     console.log( this.userForm );
-    this.formText = this.userForm.toString();
-    this.userForm.reset();
+    // this.formText = this.userForm.toString();
+    // sleep(10);
+    //waits (100); // new Promise(done => setTimeout(done, 500));
+    //this.userForm.reset();
     this.setDefault();
   }
 

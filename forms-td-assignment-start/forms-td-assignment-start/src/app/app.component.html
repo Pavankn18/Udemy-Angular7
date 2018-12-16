@@ -32,11 +32,11 @@
             <option value="Advanced">Advanced</option>
             <option value="Pro">Pro</option>
           </select>
-          <div ngModelGroup="secret">
+          <fieldset ngModelGroup="secret">
           <br/>
             <span>Password</span><input name="password" required ngModel/><br/>
             <button type="submit" [disabled]="!form.valid">Submit</button> <br/>
-        </div>
+          </fieldset>
         </div>
       </form>
     </div>
