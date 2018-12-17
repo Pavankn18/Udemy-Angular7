@@ -40,12 +40,14 @@
 
           <label for="mail">Mail</label>
           <input formControlName="mail" /><br/>
-          <span *ngIf="form.controls['mail'].errors.required
+          <span *ngIf="!form.controls['mail'].valid
+                && form.controls['mail'].errors.required
                 && form.controls['mail'].touched"
             class="error">
             Mail ID is required field
           </span>
-            <span *ngIf="form.controls['mail'].errors.email
+            <span *ngIf="!form.controls['mail'].valid
+            && form.controls['mail'].errors.email
             && form.controls['mail'].touched"
             class="error">
             Mail ID is not valid
@@ -59,6 +61,14 @@
             <option value="finished">Finished</option>
           </select><br/>
 
+          <div formArrayName="topics">
+            <input type="text"
+              *ngFor="let topic of form.get('topics').controls; let i=index"
+              [formControlName]="i"
+            />
+          </div>
+
+          <button type="button" (click)="onAddTopic()"> Add Topic</button>
           <button type="submit">Submit</button>
       </form>
 
