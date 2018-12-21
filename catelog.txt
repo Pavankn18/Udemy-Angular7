@@ -1,0 +1,111 @@
+basic-assignment-1-start : 
+	ng g c componentName
+
+	Created module success manually with inline template and css
+	Created module warning with ng g c - further changed to class selector
+
+basic-assignment2-start :
+	[(ngModel)]="FieldNameOnController"; --this is from forms module to to-way bind with form elements
+	{{fieldOnTs}};--writes fieldOnTs to compleate
+	[htmlProperty]="fieldOnTs"; --Binds html property to field on Ts
+	(evnet)=>"methodOnTs("someValueonTs",$event)"; call a method on ts on event, input params are optionsl.
+	
+	Created two way binding for username property and display the same in <p>
+	Created a button which resets username 
+	Button is enabled only when current username is not empty
+	Button click also updates last reset timestamp
+
+basic-assignment-3-start :
+	*ngFor ="let item in itemsArray;let i = index"; --repeats element on which it is present
+		i and item variables are accessible from all desendents.
+	[ngStyle]="{styleProp: tsExpression}"; --conditinally style an element
+	[ngClass]="{className:tsBooleanExpression}"; --apply className when tsBooleanExpression is true
+
+	Created a button toggle a paragraph and record timestamp of click in array
+	Paragraph toggle implemented with ngIf
+	List of click events displayed with conditional formatting using *ngFor, [ngStyle], [ngClass]
+
+
+cmp-databinding-assignment-start :
+	@Input() attribute: Type; --allows attribute to be bound to component on its tag from parent
+	@Output() eventName: EventEmitter<string> = new EventEmitter<string>() --create listanable custom event
+	eventName.emit('someVAlue') --emit event
+	@ViewChild('refName') elementRef:ElementRef; --element with #refName attribute on them in template
+		will be injected to component class.
+	-- when updating state of viewchild,use AfterViewInit interface and implement method --ngAfterViewInit
+	-- to explore other lifecycle hooks refer to pdf in root of this repo or use ide to fill On* and After*
+
+	Created a button to start and stop game - game-contoller
+	Send a event with sl# every second, create odd component if number is odd and app-even otherwise
+	Odd and even components are passed the number to display it and styled differently.
+	Odd component uses @ViewChild on ElementRef to get span to output number received with @Input number
+	Even component receives number with @Input('outputPane') number and outputs with string attripulation.
+	Game controller component emit output with @Output EventEmitter<number>.
+	
+services-assignment-start
+	Service is a nomal type script class which can be regestired with 
+		'providers' at @Component to give service to component and its subtree of components 
+		'providers' at @NgModule to give service to all components and other services.
+	To user a service inject to constructor(service:ServiceName) of class in need of service
+	To inject service to other service, receiving service should be annotated with @Injectable()
+	Also service can be annotated with @Injectable({providedIn: 'root'}) instead of using providers attrib
+
+	Created user-status service which is injected at root level using @Injectable
+	Counter service is injected with user-status to count number of status changes.
+	Active an Inactive components were injected with user-status service and 
+		they subscribe to event of user-status
+
+
+Routing - angular
+	Register routes in app module as below
+		const routes:Routes=[{path:'', component: Home, pathMatch: 'full'},
+			{path:'users', component:'U', children:{path: ':id', component:'US'}},
+			{path:'not-found;, component:'PageNotFoundComponent'
+			{path:'/**', redirectTo:'not-found'}];
+		imports: [RouterModule.forRoot(routes)]
+		Add <router-outlet></router-outlet> as placeholder to app component html,
+		For child routing, add router-outlet in html of parent component.
+	Use router links to angular routes: 
+		<a routerLink="/servers">servers</a>
+		<a [routerLink]=["/users","Anna"]>Anna</a> -- for /users/Anna
+	path is absolute if it starts with '/' else it is relative to current path
+	routerActiveLink="className" attribute can be used to appply elemnts with link belonging to page
+	[routerLinkActiveOptions]="{exct:true}";applied on element with rounterLinkActive,checks exact path
+	Router is injectable to component and navigate programatically using this.router.navigate([]); 
+	Router with relative path: inject ActivatedRoute;this.router.naviagte([/pt],{relativeTo:this.route})
+	Retrieve params w/ ActivatedRoute:this.route.snapshot.params[''] or route.params.subscribe(prms=>{})
+	QueryParams and Fragments-inject to navigate('',{params:{}}), and retrieved similar to params above.
+	QueryParams can be preserved with navigate('',{queryParamsHandling='preserve|merge'})
+	To externalize routes, move RouterModule import to new module and export:[RouterModule],
+		import this module in app module
+	Guards:To protect access to route, use ServiceClass implementing CanActivate interface, 
+		to protect only child routes implement CanActivateChild,
+		to protect from accidentally navigating away from route implement CanDeactivate<TargetType>
+		{path:'x',component:'c',canActivate='caGuard',canActivatechild='cacG',canDeactivate='cdG'}
+	Add static data to path with {path:'x', component:'c', data:{attrib1:'attrib1Value'}}
+	Resolver:resolve an attribute to be bound on navigation,use Resolve<TypeDef> interface and register.
+		{path:'x, 'component:'c',resolve:{attrib1:Attrib1Resolver}}
+	To access data attrib passed/resolver data,use Activated route->snapshot.data/.data.subscribe()
+	
+	All imports are from @angular/router
+
+Observable: package RxJs
+	subscription: .subscribe(dataCallBack, errorCallBack, completionCallBack);
+	custom observable: 
+		use Observable.interval(1000);
+		Observable.create((o : Observer)=>(o.next('data'); o.error('errorMSg'); o.complete(); ));
+	Unsubscribe: execute observable.unsubscribe(); on OnDestroy;
+	Using subject: const sub=new Subject();//this can be used to push and read data, acts as both 
+		observer and observable; i.e, can call .next() and/or .subscribe(callbacks) on subject;
+	Obeservables offer many operators like obeservabe.map((n:number)={return 2*n}) to transform
+		an Observable to other observables. import 'rxjs/Rx' to activate operators. 
+	
+
+	All imports are from rxjs/* for versions before 6, for newer version use imports from rxjs
+	For operators in newer versions, use import 'rxjs/operators'; o.pipe(map((d:number)=>{n*2}))
+	Explore further on reactivex.io/rxjs
+
+
+
+	
+
