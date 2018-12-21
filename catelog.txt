@@ -106,6 +106,38 @@ Observable: package RxJs
 	Explore further on reactivex.io/rxjs
 
 
-
+Forms : modules FormsModule, ReactiveFormsModule
 	
+	template driven forms  :  forms-td-assignment-start
+
+	form tag provides ngSubmit event and local reference on form can be created like #form="ngForm"
+	form controls should be registered with ngModel, bindings of form [],[()] or ="" are supported
+	form controls can be grouped by applying ngModelGroup="" on parent tag of form controls
+	local ref to controls can be created and used for testing field validity like #mail="ngModel"
+	validity of local ref form can be tested like "!form.valid && form.touched"
+	value of part of form can be set with this.userForm.form.patchValue({password:'pas'})
+	
+	reactive forms  :  forms-reactive-assignment-start
+
+	FormGroup can be created like new FormGroup({
+		project : new FormControl(null, [Validators.required, 
+				CustomValidators.forbiddenNameValidator(/test/i)]),
+		topics : new FormArray([]) })
+	formarray can be modified: (<FormArray>this.form.get('topics')).push(
+					new FormControl(null, Validators.required));
+	formarray can be used as:  <input type="text"
+              *ngFor="let topic of form.get('topics').controls; let i=index"
+              [formControlName]="i"/>
+	form should be registed with template on form tag using  [formGroup]="form"
+	form controls can be registed with formControlName="mail"
+	for displaying field errors,error codes can be used:form.controls['project'].errors.forbiddenName
+	create custom validator in a class:
+		 static forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
+		    return (control: AbstractControl): {[key: string]: any} | null => {
+      			const forbidden = nameRe.test(control.value);
+      			return forbidden ? {'forbiddenName': {value: control.value}} : null;
+	
+
+
+
 
