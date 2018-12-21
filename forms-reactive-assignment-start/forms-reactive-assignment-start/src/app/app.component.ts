@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, RequiredValidator, Validators, FormArray } from '@angular/forms';
-import { forbiddenNameValidator } from 'src/shared/name-validate-directive';
+import { CustomValidators } from 'src/shared/name-validate-directive';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      project : new FormControl(null, [Validators.required, forbiddenNameValidator(/test/i)]),
+      project : new FormControl(null, [Validators.required, CustomValidators.forbiddenNameValidator(/test/i)]),
       mail : new FormControl(null, [Validators.required, Validators.email]),
       status : new FormControl('stable', [Validators.required]),
       topics : new FormArray([])
