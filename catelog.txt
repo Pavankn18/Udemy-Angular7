@@ -144,6 +144,7 @@ Pipes : pipes-assignment-start
 	create custom pipes with command `ng g p reverse', this generate a ts file with class implementing
 		PipeTransform (method: transform and annotated with @Pipe({name:'reverse'})
 	pipes can be configured like {{ server.started | date:'fullDate' }}
+	resolve and display result of promise and observable using pipe async: {{ appStatus | async}}
 
 	in this excersize:
 	created pipe filter which filters items displayed in *ngFor on specified property 	
