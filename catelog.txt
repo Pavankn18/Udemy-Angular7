@@ -138,6 +138,17 @@ Forms : modules FormsModule, ReactiveFormsModule
       			return forbidden ? {'forbiddenName': {value: control.value}} : null;
 	
 
+Pipes : pipes-assignment-start
+
+	pipes used to transform what is displayed like {{ server.instanceType | uppercase | reverse }}
+	create custom pipes with command `ng g p reverse', this generate a ts file with class implementing
+		PipeTransform (method: transform and annotated with @Pipe({name:'reverse'})
+	pipes can be configured like {{ server.started | date:'fullDate' }}
+
+	in this excersize:
+	created pipe filter which filters items displayed in *ngFor on specified property 	
+	created pipe sort which sorts items displayed in *ngFor on specified property
+	created pipe revers which will reverse the given string
 
 
 
