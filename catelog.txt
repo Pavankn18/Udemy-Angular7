@@ -8,7 +8,7 @@ basic-assignment2-start :
 	[(ngModel)]="FieldNameOnController"; --this is from forms module to to-way bind with form elements
 	{{fieldOnTs}};--writes fieldOnTs to compleate
 	[htmlProperty]="fieldOnTs"; --Binds html property to field on Ts
-	(evnet)=>"methodOnTs("someValueonTs",$event)"; call a method on ts on event, input params are optionsl.
+	(event)=>"methodOnTs("someValueonTs",$event)"; call a method on ts on event, input params are optional
 	
 	Created two way binding for username property and display the same in <p>
 	Created a button which resets username 
@@ -28,12 +28,12 @@ basic-assignment-3-start :
 
 cmp-databinding-assignment-start :
 	@Input() attribute: Type; --allows attribute to be bound to component on its tag from parent
-	@Output() eventName: EventEmitter<string> = new EventEmitter<string>() --create listanable custom event
+	@Output() eventName: EventEmitter<string> =new EventEmitter<string> ()--create listanable custom event
 	eventName.emit('someVAlue') --emit event
 	@ViewChild('refName') elementRef:ElementRef; --element with #refName attribute on them in template
 		will be injected to component class.
 	-- when updating state of viewchild,use AfterViewInit interface and implement method --ngAfterViewInit
-	-- to explore other lifecycle hooks refer to pdf in root of this repo or use ide to fill On* and After*
+	-- to explore other lifecycle hooks refer to pdf in root of this repo / use ide to fill On* and After*
 
 	Created a button to start and stop game - game-contoller
 	Send a event with sl# every second, create odd component if number is odd and app-even otherwise
@@ -70,7 +70,7 @@ Routing - angular
 		<a [routerLink]=["/users","Anna"]>Anna</a> -- for /users/Anna
 	path is absolute if it starts with '/' else it is relative to current path
 	routerActiveLink="className" attribute can be used to appply elemnts with link belonging to page
-	[routerLinkActiveOptions]="{exct:true}";applied on element with rounterLinkActive,checks exact path
+	[routerLinkActiveOptions]="{exact:true}";applied on element with rounterLinkActive,checks exact path
 	Router is injectable to component and navigate programatically using this.router.navigate([]); 
 	Router with relative path: inject ActivatedRoute;this.router.naviagte([/pt],{relativeTo:this.route})
 	Retrieve params w/ ActivatedRoute:this.route.snapshot.params[''] or route.params.subscribe(prms=>{})
@@ -152,5 +152,215 @@ Pipes : pipes-assignment-start
 	created pipe sort which sorts items displayed in *ngFor on specified property
 	created pipe revers which will reverse the given string
 
+Http Requests : requires import rxjs/Rx and HttpModule : it is deprecated from angular 6
 
+	Inject Http service from @angular/http which can be used to perform post, get, put etc.
+	post/put can be used as http.post(url, data, {headers:new Headers({location:loc})})
+	get request is similar to post/put above without data as a parameter
+	http requests are send only after subscribing to Obeservable returned by http.{req_method}()
+	Observable returned wraps Response which provides .json to return json data of response
+	Returned Observable can be further unwrapped with .map( (resp:Response)=> {return resp.json} )
+	empty attributes may not be saved, hence in .map add required props if missing.
+	
+	firebase can be good backened!
+
+Authentication and Route protection : 
+
+	Authentication with jwt: https://jwt.io/
+	Firebase api accessed by : import * as firebase from 'firebase'
+	login with firebase.auth().loginWithUserNameAndPassword(username, password)
+		this returns promise with token, user id etc.
+	sign up with firebase.auth().signupWithUserNameAndPassword(username, password)
+	Get token with firebase.auth().currentUser.getIdToken(); -- this returns promise, 
+		use .then((token: string)=> {});
+	For resource access with firebase use  http://firebase.resource.url?auth=token
+	logout with firebase.auth().signout();
+
+Modules :
+
+	App module imports BrowserModule, other modules should import CommonModule.
+	BrowserModule is CommonModule + features required during startup of application.
+	Declaration of component, pipe, direcgive etc cannot be repeated in more than on module
+	For moving routes to feature module, create router module for the feathre and use import
+		RouterModule.forChild(featureRoutes); aginst .forRoot in app module.
+	If a component is needed more than one module, move them to a shared module, and import that
+		module in all modules needing the component/pipe/directive/etc.
+	Common modules can be exported in a shared module which can imported in other modules.
+	Forms module should be imported to each module using it! enables directives only in imported module.
+	Routes don't need component to be in the same module.
+
+	to lazy load module recipie add below route definition to .forRoot() and '' route in recipie routes
+		{ path: 'recipes', loadChildren: './recipes/recipes.module#RecipesModule'
+			, canLoad: [AuthGuard] --apply 'AuthGuard implments CanLoad' before loading recipies 
+		}
+	Root Level injector for services used for all eager loaded modules and child injector for each lazy
+		loaded modules -- all eager loaded modules share same provides event with providers defined.
+	Shared module provided services will cater one instance of service for all eagerly loaded modules
+		and one instance each for lazyly loaded modles --  do not provide service in shared module --
+	Ahead of Time (AoT) compilation: faster startup -parsing and compilation does not happen in Browser
+		Templates get checked during development time.
+		Smaller File Size - compiler wont be shipped.
+		Any feature like ngIf if never used in application, won't be shipped.
+		build for prod with AoT : ng build --prod --aot
+	Preload Lazy Loaded routes: RouterModule.forRoot(appRoutes, {preloadingStrategy: PreLoadAllModule})
+
+Deployment :
+
+	build for production with aot : ng build --prod --aot / follow instruction of build platform 
+	set index.html <html><head><base href="/myapp/"></head>.. if app is hosted at example.com/myapp
+	setting base.href can be done with build command: ng build --prod --aot --base-href /myapp/
+	always return index.html for all requests even if 404 on server return index.html
+	build app and deploy contents of dist folder.
+
+HttpClient : HttpClientModule from @angular/common/http
+	
+	supports more features than http including interceptors however http is not depricated
+	Simlar to injecting http service, instead HttpClient service (@angular/common/http)
+	put/post : this.httpclient.put(url, data, {config: configvalue}); get: this.httpclient.get(url)
+	httpclient returns typed requests this.httpClient.get<Recipie[]>(url).map( (recipies)=>{} )
+		using generics supported only if json is expected as returned data.
+	configure options: this.httpclient.get(url, {
+		observe: 'response', --get full response --other options: event, body
+		responseType: 'text', --treat body as text - other options : json, bolb, array
+		//body: data --this is alternate way to pass body of post/put
+		headers: new HttpHeaders().set('Authorization': 'bearer token').append('timeout','100')
+		params: new HttpParams().set('auth':token).append('name','val') --add query params
+		}
+	Respond to events: this.httpclient.put(url, {observe:event}).subscribe ( (event: HttpEvent<Object>){
+		console.log(event.type === HttpEventType.Sent});
+		--other event types: Response, DownloadProgress, REsponseHeader, UploadProgress
+	Create requests from scratch: new HttpRequest('PUT', url, data,{
+		reportProgress: true, --works only on, requests created this way i.e., new HttpRequest() 
+		});
+		this.httpClient.request(req).subscribe( (event)=> console.log(event.loaded/event.total));
+	
+	Interceptors: 
+	create interceptor to modify requests: export AuthIr implments HttpInterceptor{
+		intercept(req: HttpRequest<any>, next: HttpHandler):Obervable<HttpEvent<any>>
+		{	const reqclone = req.clone({ params: req.params.set('auth', token)
+			}); --takes config object to configure like headers, params etc
+			return next.handle(req).pipe(tap((event => console.logt(event)));
+			--for rxjs-compat: return next.handle(req).do(event=>console.logt(event))
+		}
+	}
+	returning null in intercept will break the request.
+	add to module using it as providers:[AuthService, {provide: HTTP_INTERCEPTOR, useClass: AuthIr}]
+	dependecies can be injected through constructor after applying @Injectable to class.
+	interceptors are executed in the order they are registered in ngModule.providers
+
+	Dive deep: https://angular.io/guide/http
+
+NgRx : project: ng6-finished - react redux like facility for angular.
+
+	This can be used instead of services for state managment in large apps.
+	dispatch action -> execute reducer -> update store immutably
+	Action: export class AddIngdt implements Action {readonly type='ADD'; 
+		cunstructor( public payload: Ingredient){}}
+	reducer: export function shopReducer(state = {ings:[new Ingredient('pvn')]}, action: AddIngdts){
+		return action.type='ADD' :{...state, ings: [...state.ings, action.payload]
+	Register reducer: add to imports StoreModule.forRoot({shopList: shopReducer}) 
+	Access store: inject Store<{shopList: {ings: Ingredients[]}}>
+	Read Store: this.store.select('shopList') --returns Observable<{ings: Ingredient[]}>
+		store this observable and use this in html template through async pipe
+	Dispatch action: this.store.dispatch(new AddIngdts(new Ingredient('ginger')));
+	Add multiple state/reducers:export const reducers: ActionReducerMap<AppState> = {
+		shoppingList: frmShpLst.shpReducers, auth: frmAuth.authReducer }
+		add to module imports : StoreModule.forRoot(reducers)
+	Update AuthGuard.canActivate: return this.store.select('auth').map((authState:frmAuth.state)=>{
+		return authState.authenticated;});
+	Use switchMap((authState:Auth.State)=>{}) to avoid wrapping observable in an observable when return
+		value in the method is itself an observable.
+	To end subscription to observable after recieving a value use obeservable.pipe(take(1), ...);
+	Add Lazy loaded reducer for lazy loaded module: add to module imports: 
+		StoreModule.forFeature('recipie',recipeReducer, {});--name, reducer, configuration
+		Reducer can extending our registered AppState:ActionReducerMap to make this reducer part of
+		gloab app state.
+	Inject a state value to effect: this.action$.pipe(ofType(STORE_RCP), 
+		withLatestFrom(this.store.select('rcp'), switchMap(([action, state]=>{...})),  ...);
+
+	Effects : npm install --save @ngrx/effects
+	export class AuthEffects{ constructor(private actions$:Actions); @Effect authSignup= 
+		this.actions$.pipe(ofType('TRY_SIGNUP'), 
+		map( (action: AuthActions.TrySignup)=<{return action.payload},
+		switchMap( (authData:{user:string, pass:password})=>{
+			return from(someThingThatReturnsPromise);
+		}),
+		mergeMap( (input:any) => {return ArrayOfActionsToBeFiredSequentiallyAsObservables }  ) )}
+	Add to module imports: EffectsModule.forRoot(AuthEffects);
+	
+	RouterStore: npm install --save @ngrx/router-store
+	Add to module imports: StoreRouterConnectinoModule
+
+
+	StoreDevtools: npm install --save @ngrx/store-devtools;&install chrome extension 'Redux Dev Tools'
+	Add to appModule: import { environment } from './../environtment/environment';
+	Add to imports of module after StoreModules import: 
+		!environment.production ? StoreDevtoolsModule.instrument() : []
+	You can see all state changes and actions in F12 -> Reduc tab.
+
+	Usefull links:
+	https://github.com/ngrx/platform
+	https://blog.nrwl.io/using-ngrx-4-to-manage-state-in-angular-applications-64e7a1f84b7b
+	https://blog.nrwl.io/ngrx-patterns-and-techniques-f46126e2b1e5
+
+	
+Angular Universal: https://angular.io/guide/universal
+	Helps search engines to crawl the site properly
+	Hosting server needs to be able to run javascript to allow server side rendering of the app
+
+Angular Animation: animations-finished
+	npm install --save @angular/animations
+	Add to module imports BrowserAnimationsModule imported from @angular/platform-browser/animations
+	
+	Add animation array to components: animation: [trigger('stateName',[
+		state('stateVAl1',style({'background-color':'red', transform: translateX(0) scale(0.5),...})
+		state('stateVAl2', style({/*css styles when bound value is sateVAl2}),
+		state('stateVal3', style({...})),...
+		transition['stateVal1 => stateVal2', animate(300)],
+		transition('stateVal3 <=> *', animate(400,({/*styles to be applyed during animation*/})
+		transition('stateVal4 <=> *', [
+			style({/*these style applyied instantly}),
+			animate(1000, style({borderRadius:'50x'})) //First animation
+			animate(500) //Animate to end state
+			])
+		])]
+	Bind to dom in template: <div [@stateName]="variableToBind"> </div>
+	'void' is reserved state for element did not exist when adding/removing element from dom
+		transition('void => *', [style(/*initial state after create element), animate(100)])
+	KeyFrames: decate, at what point you should reacn certain inbetween states
+		transiction('* => void', [animate(1000, keyframes([
+			style({/*initial state*/, offset: 0}),
+			style({/*styles after 300ms*/ offset: 0.3}),
+			style({/*style at the end*/ offset: 1})]))
+	Group animations: group([ /*animations to apply at the same time])
+	Animation Callback: (@stateName.start)='function1()' (@stateName.done)='function2()';
+
+Offline Capabilities: 
+	configure project to use service workerswith preconfigured service worker: ng add @angular/pwa
+	It updates AppModule imports with ServiceWorkerModule,
+	Update package.json
+	Adds ngsw-config.json to configure the service worker
+		contains asset group dectating what resources to cache,install & update mode:prefetch/lazy
+		to cache url contents: assetGroup.resources.urlsL [list of urls]
+		to cache api: datagroups:[{"name":"posts", urls:[urls];cacheConfig:{
+			"maxSize": 5,
+			"maxAge": "1d", //or 12h, 23m etc
+			"timeout": "10s" //how long to wait before falling back to cache
+			"strategy: "freshness" //freshess:attempts to load first, 
+					//performance:render from cache and the fetch data
+			}}]
+	Angular.json is changed to enable service worker from production build
+	
+	ng build --prod;
+	npm install -g http-server
+	cd dist/angular/pwa; http-server -p 8081
+	check F12 -> Application ->Service Workers:you should see the service worker
+	
+	When offline we cater hardcoded content in app.component.html
+	Service workers only load changed files based on hash in the file name added by prod build
+	
+
+Res / Etc :
+	update from angular 5->6:
+		https://www.academind.com/learn/angular/snippets/angular-6-whats-new-angular-upgrade/
 

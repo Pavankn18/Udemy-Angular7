@@ -11,3 +11,5 @@ np update @angular/cli # updates cli
 npm install --save-dev @angular-devkit/build-angular
 
 ng g c component
+
+npm install --save @ngrx/store
