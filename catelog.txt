@@ -364,7 +364,7 @@ Offline Capabilities: ng-pwa-02-finished
 	https://angular.io/guide/service-worker-intro
 	PAW: https://academind.com/learn/progressive-web-apps
 
-Testing
+Testing : testing-final
 
 	Running test : ng test
 	Sample test: describe('Component: compName', ()=>{beforeEach(()=>{
