@@ -334,8 +334,9 @@ Angular Animation: animations-finished
 			style({/*style at the end*/ offset: 1})]))
 	Group animations: group([ /*animations to apply at the same time])
 	Animation Callback: (@stateName.start)='function1()' (@stateName.done)='function2()';
+	
 
-Offline Capabilities: 
+Offline Capabilities: ng-pwa-02-finished 
 	configure project to use service workerswith preconfigured service worker: ng add @angular/pwa
 	It updates AppModule imports with ServiceWorkerModule,
 	Update package.json
@@ -359,6 +360,39 @@ Offline Capabilities:
 	When offline we cater hardcoded content in app.component.html
 	Service workers only load changed files based on hash in the file name added by prod build
 	
+	Resources:
+	https://angular.io/guide/service-worker-intro
+	PAW: https://academind.com/learn/progressive-web-apps
+
+Testing
+
+	Running test : ng test
+	Sample test: describe('Component: compName', ()=>{beforeEach(()=>{
+		TestBed.configureTestingModule({declarations: [UserComponent]})})}
+		
+		it('Test Description',()={let fixture=TestBed.createComponent(UserComponent);
+			let app = fixture.debugEelemnt.componentInstance;
+			expect(app).toBETruthy();})
+		)
+	get injectable Service for component fixture: fixture.debugElement.injector.got(UserService)
+	For injection to work invoke: fixture.detectChanges();
+	Expect expressions: expect(expression).toEqual(obj.prop.value)|toContain()|.not.toContain()
+		|.toBe(undefined);
+	get html element val: fixture.debugElement.nativeElement.querySelector('p').textContent
+	Test Async: async(()=>{ ...
+		let spy=spyO(dataService,'getDetails').and.returnValue(Promise.resolve('Data'));
+		fixture.detectChanges();
+		fixture.whenStable().then(()=>{...});   });
+	
+		fakeAsync(()=>{ let spyOn...; fixture.detectChanges...; tick(); expect... )});
+		
+
+	Resource:
+	https://angular.io/docs/ts/latest/guide/testing.html
+	Unit Tests: https://github.com/angular/angular-cli/wiki/test
+	E2E Tests: https://github.com/angular/angular-cli/wiki/e2e
+	Article: https://semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine
+
 
 Res / Etc :
 	update from angular 5->6:
