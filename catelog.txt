@@ -393,6 +393,25 @@ Testing
 	E2E Tests: https://github.com/angular/angular-cli/wiki/e2e
 	Article: https://semaphoreci.com/community/tutorials/testing-components-in-angular-2-with-jasmine
 
+Angular Change - 6:
+
+	Import and calls are updated in RxJs-6
+	Replace <template> with <ng-template>
+	Old Http Client module is depricated
+	Engular elements to use angular components dynamically
+	Ivy renderer is in working.
+
+	Resources
+	[Article + Video] Angular 6 - What's New? What Changed? => 
+	https://www.academind.com/learn/angular/snippets/angular-6-whats-new-angular-upgrade
+	RxJS 6 - What's New? What Changed? => 
+	https://www.academind.com/learn/javascript/rxjs-6-what-changed/
+	[Article + Video] Angular Elements - A First Look => 
+	https://www.academind.com/learn/angular/snippets/angular-elements-tutorial-introduction
+	Official Release Blog Post: https://medium.com/@stephenfluin/cc56b0efa7a4
+	Use the Angular Update Tool: https://update.angular.io/
+	Ivy Renderer Demo: https://ng-ivy-demo.firebaseapp.com/
+
 
 Res / Etc :
 	update from angular 5->6:
